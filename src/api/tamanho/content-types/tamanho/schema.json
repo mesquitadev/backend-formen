@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tamanhos",
+  "info": {
+    "singularName": "tamanho",
+    "pluralName": "tamanhos",
+    "displayName": "Tamanhos"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "tamanho": {
+      "type": "string"
+    }
+  }
+}
