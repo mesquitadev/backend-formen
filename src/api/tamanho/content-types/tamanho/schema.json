@@ -4,15 +4,21 @@
   "info": {
     "singularName": "tamanho",
     "pluralName": "tamanhos",
-    "displayName": "Tamanhos"
+    "displayName": "Tamanho",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "tamanho": {
+    "nome": {
       "type": "string"
+    },
+    "categoria": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::categoria.categoria"
     }
   }
 }

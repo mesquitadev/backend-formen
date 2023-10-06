@@ -677,43 +677,12 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface ApiCategoryCategory extends Schema.CollectionType {
-  collectionName: 'categories';
+export interface ApiCategoriaCategoria extends Schema.CollectionType {
+  collectionName: 'categorias';
   info: {
-    singularName: 'category';
-    pluralName: 'categories';
-    displayName: 'Categorias';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    nome: Attribute.String & Attribute.Required;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::category.category',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::category.category',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiMarcaMarca extends Schema.CollectionType {
-  collectionName: 'marcas';
-  info: {
-    singularName: 'marca';
-    pluralName: 'marcas';
-    displayName: 'Marca/Fabricante';
+    singularName: 'categoria';
+    pluralName: 'categorias';
+    displayName: 'Categoria';
     description: '';
   };
   options: {
@@ -721,17 +690,28 @@ export interface ApiMarcaMarca extends Schema.CollectionType {
   };
   attributes: {
     nome: Attribute.String;
+    imagem: Attribute.Media;
+    produtos: Attribute.Relation<
+      'api::categoria.categoria',
+      'oneToMany',
+      'api::produto.produto'
+    >;
+    tamanhos: Attribute.Relation<
+      'api::categoria.categoria',
+      'oneToMany',
+      'api::tamanho.tamanho'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::marca.marca',
+      'api::categoria.categoria',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::marca.marca',
+      'api::categoria.categoria',
       'oneToOne',
       'admin::user'
     > &
@@ -739,48 +719,87 @@ export interface ApiMarcaMarca extends Schema.CollectionType {
   };
 }
 
-export interface ApiProductProduct extends Schema.CollectionType {
-  collectionName: 'products';
+export interface ApiProdutoProduto extends Schema.CollectionType {
+  collectionName: 'produtos';
   info: {
-    singularName: 'product';
-    pluralName: 'products';
-    displayName: 'Produtos';
+    singularName: 'produto';
+    pluralName: 'produtos';
+    displayName: 'Produto';
     description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    nome: Attribute.String & Attribute.Required;
-    categoria: Attribute.Relation<
-      'api::product.product',
-      'oneToOne',
-      'api::category.category'
-    >;
-    preco: Attribute.Decimal;
-    em_estoque: Attribute.Boolean;
+    nome: Attribute.String;
     imagem: Attribute.Media;
+    sub_categoria: Attribute.Relation<
+      'api::produto.produto',
+      'manyToOne',
+      'api::sub-categoria.sub-categoria'
+    >;
     tamanho: Attribute.Relation<
-      'api::product.product',
+      'api::produto.produto',
       'oneToOne',
       'api::tamanho.tamanho'
-    >;
-    marca_fabricante: Attribute.Relation<
-      'api::product.product',
-      'oneToOne',
-      'api::marca.marca'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::product.product',
+      'api::produto.produto',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::product.product',
+      'api::produto.produto',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiSubCategoriaSubCategoria extends Schema.CollectionType {
+  collectionName: 'sub_categorias';
+  info: {
+    singularName: 'sub-categoria';
+    pluralName: 'sub-categorias';
+    displayName: 'SubCategoria';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    nome: Attribute.String;
+    produtos: Attribute.Relation<
+      'api::sub-categoria.sub-categoria',
+      'oneToMany',
+      'api::produto.produto'
+    >;
+    tamanhos: Attribute.Relation<
+      'api::sub-categoria.sub-categoria',
+      'oneToMany',
+      'api::tamanho.tamanho'
+    >;
+    categoria: Attribute.Relation<
+      'api::sub-categoria.sub-categoria',
+      'oneToOne',
+      'api::categoria.categoria'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::sub-categoria.sub-categoria',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::sub-categoria.sub-categoria',
       'oneToOne',
       'admin::user'
     > &
@@ -793,13 +812,19 @@ export interface ApiTamanhoTamanho extends Schema.CollectionType {
   info: {
     singularName: 'tamanho';
     pluralName: 'tamanhos';
-    displayName: 'Tamanhos';
+    displayName: 'Tamanho';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    tamanho: Attribute.String;
+    nome: Attribute.String;
+    categoria: Attribute.Relation<
+      'api::tamanho.tamanho',
+      'oneToOne',
+      'api::categoria.categoria'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -834,9 +859,9 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'api::category.category': ApiCategoryCategory;
-      'api::marca.marca': ApiMarcaMarca;
-      'api::product.product': ApiProductProduct;
+      'api::categoria.categoria': ApiCategoriaCategoria;
+      'api::produto.produto': ApiProdutoProduto;
+      'api::sub-categoria.sub-categoria': ApiSubCategoriaSubCategoria;
       'api::tamanho.tamanho': ApiTamanhoTamanho;
     }
   }

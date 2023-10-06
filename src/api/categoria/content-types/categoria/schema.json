@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "categorias",
+  "info": {
+    "singularName": "categoria",
+    "pluralName": "categorias",
+    "displayName": "Categoria",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nome": {
+      "type": "string"
+    },
+    "imagem": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "produtos": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::produto.produto"
+    },
+    "tamanhos": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::tamanho.tamanho"
+    }
+  }
+}
