@@ -743,6 +743,8 @@ export interface ApiProdutoProduto extends Schema.CollectionType {
       'oneToOne',
       'api::tamanho.tamanho'
     >;
+    preco: Attribute.Decimal;
+    mostrar_preco: Attribute.Boolean;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
